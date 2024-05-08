@@ -56,14 +56,14 @@ jobs:
       # Upload Trivy Scan Report to Slack
       - name: Upload scan report to Slack
         if: ${{ steps.trivy-scan.outcome == 'success' }}
-        # uses: rtCamp/action-slack-upload-file@v2
-        uses: rtCamp/action-slack-notify@v2
+        run: |
+          curl -F file=@trivy-report.txt \
+               -F "initial_comment=Scan report by Alphonsus Tay" \
+               -F channels=$SLACK_CHANNEL \
+               -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
+               https://slack.com/api/files.upload
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: test
-          SLACK_FILE_PATHS: trivy-report.txt
-          SLACK_FILE_INITIAL_COMMENT: "Scan report by Alphonsus Tay"
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: test # CHANGE THIS TO submission or test-submission
 
       # Docker
       #- name: Build and push Docker image
