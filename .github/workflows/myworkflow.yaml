@@ -1,5 +1,3 @@
-name: go-fortune workflow
-
 on:
   push:
     branches:
@@ -21,41 +19,31 @@ jobs:
           scan-ref: '.'
           trivy-config: trivy.yaml
           format: 'table'
-          output: 'trivy-report.txt'
-          severity: ${{ secrets.TRIVY_SEVERITY }}
-          fail-on-severity: HIGH
           exit-code: '1'
+          severity: ${{ secrets.TRIVY_SEVERITY }}
+          output: 'trivy-report.txt'
 
-       # Slack Notification on Failure
+      # Slack Notification on Failure
       - name: Slack Notification on Failure
         if: failure()
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: test
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }} # CHANGE THIS TO submission or test-submission
           SLACK_USERNAME: DipSA58 CICD
           SLACK_MESSAGE: |
             *Scan failed - Alphonsus Tay*
             Failed trivy scan, see uploaded report.
 
-      # Upload Trivy Scan Report to Slack
-      - name: Upload scan report
-        if: success()
-        uses: rtCamp/action-slack-upload-file@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: test
-          SLACK_FILE_INITIAL_COMMENT: "Scan report by Alphonsus Tay"
-          SLACK_FILE_PATHS: trivy-report.txt
 
 
-         # Slack Notification on Success
+      # Slack Notification on Success
       - name: Slack Notification on Success
         if: success()
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: test
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }}
           SLACK_USERNAME: DipSA58 CICD
           SLACK_TITLE: 'Image build and signed'
           SLACK_MESSAGE: |
@@ -64,6 +52,18 @@ jobs:
             *Email*: alphonsus.tay@gmail.com
             *Git*: https://github.com/alpsaur/go-fortune
             *Image*: https://hub.docker.com/repository/docker/alpsaur/ghact-go-fortune
+
+      # Upload Trivy Scan Report to Slack
+      - name: Upload scan report to Slack
+        if: ${{ steps.trivy-scan.outcome == 'success' }}
+        # uses: rtCamp/action-slack-upload-file@v2
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: test
+          SLACK_FILE_PATHS: trivy-report.txt
+          SLACK_FILE_INITIAL_COMMENT: "Scan report by Alphonsus Tay"
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
       # Docker
       #- name: Build and push Docker image
@@ -74,5 +74,3 @@ jobs:
       #    file: ./Dockerfile
       #    push: true
       #    tags: alpsaur/go-fortune:${{ github.sha }}
-
-
