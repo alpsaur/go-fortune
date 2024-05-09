@@ -43,13 +43,13 @@ jobs:
           scan-ref: '.'
           format: 'table'
           output: 'trivy-report.txt'
-          severity: ${{ secrets.TRIVY_SEVERITY }}
+          severity: HIGH
           #fail-on-severity: ${{ secrets.TRIVY_SEVERITY }}
           exit-code: '0'
 
       # Slack Notification on Failure
       - name: Slack Notification on Failure
-        if: failure()
+        #if: failure()
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_PHONS }}
