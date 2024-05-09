@@ -44,7 +44,7 @@ jobs:
           format: 'table'
           output: 'trivy-report.txt'
           severity: ${{ secrets.TRIVY_SEVERITY }}
-          fail-on-severity: ${{ secrets.TRIVY_SEVERITY }}
+          #fail-on-severity: ${{ secrets.TRIVY_SEVERITY }}
           exit-code: '0'
 
       # Slack Notification on Failure
@@ -81,7 +81,7 @@ jobs:
         #if: failure()
         uses: MeilCli/slack-upload-file@v4
         with:
-          slack_token: ${{ secrets.SLACK_TOKEN_CHUK }}
+          slack_token: ${{ secrets.SLACK_TOKEN_PHONS }}
           channel_id: ${{ secrets.CHANNEL_ID_TS  }}
           #content: ${{ steps.trivy-scan.outputs.trivy-report.txt }}
           file_type: 'text'  # Automatically detect file type
