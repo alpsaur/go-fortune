@@ -80,7 +80,7 @@ jobs:
         #needs: [job1, job2]
         uses: MeilCli/slack-upload-file@v4
         with:
-          slack_token: ${{ secrets.SLACK_TOKEN_CHUKL }}
+          slack_token: ${{ secrets.SLACK_TOKEN }}
           channel_id: ${{ secrets.CHANNEL_ID_TS  }}
           file_path: 'trivy-report.txt'
           initial_comment: 'Scan report by Alphonsus Tay'
