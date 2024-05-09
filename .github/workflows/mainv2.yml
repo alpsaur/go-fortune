@@ -1,4 +1,4 @@
-name: go-fortune workflow
+name: Build and Push
 
 on:
   push:
@@ -48,11 +48,11 @@ jobs:
           exit-code: '0'
 
       - name: Slack Notification on Failure
-        if: failure()
+        #if: failure()
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_PHONS }}
-          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID_PHONS }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TS }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID_TS }}
           SLACK_USERNAME: DipSA58 CICD
           SLACK_MESSAGE: |
             *Scan failed - Alphonsus Tay*
@@ -61,11 +61,11 @@ jobs:
 
       # Slack Notification on Success
       - name: Slack Notification on Success
-        if: success()
+        #if: success()
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_PHONS }}
-          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID_PHONS }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TS }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID_TS }}
           SLACK_USERNAME: DipSA58 CICD
           SLACK_TITLE: 'Image build and signed'
           SLACK_MESSAGE: |
@@ -80,7 +80,7 @@ jobs:
         #needs: [job1, job2]
         uses: MeilCli/slack-upload-file@v4
         with:
-          slack_token: ${{ secrets.SLACK_TOKEN_PHONS }}
+          slack_token: ${{ secrets.SLACK_TOKEN_CHUKL }}
           channel_id: ${{ secrets.CHANNEL_ID_TS  }}
           file_path: 'trivy-report.txt'
           initial_comment: 'Scan report by Alphonsus Tay'
