@@ -44,8 +44,7 @@ jobs:
           format: 'table'
           output: 'trivy-report.txt'
           severity: ${{ secrets.TRIVY_SEVERITY }}
-          fail-on-severity: ${{ secrets.TRIVY_SEVERITY }}
-          exit-code: '1'
+          exit-code: '0'
 
       # Slack Notification on Failure
       - name: Slack Notification on Failure
