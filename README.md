@@ -1,18 +1,5 @@
-## Command line options
+# Repository Moved
 
-| Option    | Description                        | Default       |
-|-----------|------------------------------------|---------------|
-|`--fortune`| Fortune file, one fortune per line | ./fortune.txt |
-|`--static` | Static assets directory            | ./static      |
-|`--port`   | Port to bind to                    | 3000          |
+This repository has moved to [CA](https://github.com/alpsaur/CA). Please visit the new repository for the latest updates.
 
-## Versions and Container Images
-The release version corresponds to the container image version
-
-## Public key
-
-The public key to verify the image is in the repository `cosign.pub`. To verify the image use [cosign](https://github.com/sigstore/cosign)
-
-```
-cosign verify --key cosign.pub ghcr.io/chukmunnlee/go-fortune:<tag>
-```
+[![Redirect to CA](https://img.shields.io/badge/Redirect-CA-blue)](https://github.com/alpsaur/CA)
